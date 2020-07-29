@@ -47,19 +47,55 @@ public class EmployeeServiceImpl implements EmployeeService {
 //-----------------------------------------------------------------------------------------------------------
 //addEmployee
 	@Override
-	public void addEmployee(Employee emp) {
+	public EmployeeResponse addEmployee(Employee employee) {
 		System.out.println("	EmployeeServiceImpl.addEmployee : START ");
-		employeeDBRepository.save(emp);
+		
+		EmployeeResponse empResponse = new EmployeeResponse();
+		
+				try {
+					if(employee.getLastName() !=null && !employee.getLastName().isBlank()) {
+						employeeDBRepository.save(employee);
+						empResponse.setStatus("OK");
+						empResponse.setResponseMessage("Employee Successfully added");
+					} else {
+						empResponse.setStatus("VALIDATION_ERROR");
+						empResponse.setResponseMessage("Please provide the mandetory fields!!!");
+					}
+
+				} catch (Exception e) {
+					empResponse.setStatus("INTERNAL_ERROR");
+					empResponse.setResponseMessage(e.getMessage());
+					e.printStackTrace();
+				}
+		
 		System.out.println("	EmployeeServiceImpl.addEmployee : END ");
+		
+		return empResponse;
 	}
 
 //-----------------------------------------------------------------------------------------------------------
-//deleteEmployee
+//deleteEmployeeById
 	@Override
-	public void deleteEmployee(long empId) {
+	public EmployeeResponse deleteEmployeeById(long empId) {
 		System.out.println("	EmployeeServiceImpl.deleteEmployee : START ");
-		employeeDBRepository.deleteById(empId);
+		
+		EmployeeResponse empResponse = new EmployeeResponse();
+
+		try {
+			employeeDBRepository.deleteById(empId);
+			empResponse.setStatus("OK");
+			empResponse.setResponseMessage("Employee Successfully deleted");
+		} catch (Exception e) {
+			empResponse.setStatus("INTERNAL_ERROR");
+			empResponse.setResponseMessage(e.getMessage());
+			e.printStackTrace();
+		}
+		
 		System.out.println("	EmployeeServiceImpl.deleteEmployee : END ");
+		
+		return empResponse;
+
 	}
+	
 
 }

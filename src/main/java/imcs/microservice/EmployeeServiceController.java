@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,28 +59,29 @@ public class EmployeeServiceController {
 
 //-----------------------------------------------------------------------------------------------------------
 // addEmployee
-	@RequestMapping(value = "/addEmployee/{firstName}", method = RequestMethod.GET, produces = { "application/json" })
-	public String addEmployee(@PathVariable("firstName") String firstName) {
-		Employee emp = new Employee();
-		emp.setFirstName(firstName);
-		emp.setEmpId(1000);
+	@RequestMapping(value = "/addEmployee", 
+			method = RequestMethod.POST, 
+			produces = { "application/json" })
+	public EmployeeResponse addEmployee(@RequestBody Employee employee) {
 		System.out.println("EmployeeServiceController.addEmployee : START ");
-		empService.addEmployee(emp);
+		EmployeeResponse empResponse = empService.addEmployee(employee);
 		System.out.println("EmployeeServiceController.addEmployee : End ");
 
-		return "Successfully Added";
+		return empResponse;
 
 	}
 
 // -----------------------------------------------------------------------------------------------------------
-// deleteEmployee
-	@RequestMapping(value = "/deleteEmployee/{empId}", method = RequestMethod.GET, produces = { "application/json" })
-	public String deleteEmployee(@PathVariable("empId") long empId) {
-		System.out.println("EmployeeServiceController.deleteEmployee : START ");
-		empService.deleteEmployee(empId);
-		System.out.println("EmployeeServiceController.deleteEmployee : END ");
+// deleteEmployeeById
+	@RequestMapping(value = "/deleteEmployeeById/{empId}", 
+			method = RequestMethod.DELETE, 
+			produces = { "application/json" })
+	public EmployeeResponse deleteEmployeeById(@PathVariable("empId") long empId) {
+		System.out.println("EmployeeServiceController.deleteEmployeeById : START ");
+		EmployeeResponse empResponse = empService.deleteEmployeeById(empId);
+		System.out.println("EmployeeServiceController.deleteEmployeeById : END ");
 
-		return "Successfully deleted the employee with ID = " + empId ;
+		return empResponse;
 
 	}
 

@@ -7,7 +7,7 @@ public interface EmployeeService {
 	public List<Employee> getEmployeeInfoAll();
 	public List<Employee> getEmployeeInfoByLastName(String lastName);
 	public List<Employee> getEmployeeInfoByEmpId(long empId);
-	public void addEmployee(Employee emp);
-	public void deleteEmployee(long empId);
+	public EmployeeResponse addEmployee(Employee employee);
+	public EmployeeResponse deleteEmployeeById(long empId);
 	
 }
